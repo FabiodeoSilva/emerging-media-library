@@ -12,11 +12,10 @@ const User = require(path.join(__dirname, "..", "..", "models", "User.js"));
 
 router.get("/test", (req, res) => res.send({ mesg: "user works" }));
 
-// @route   Post api/users/test
+// @route   POST api/users/test
 // @desc    register new user
 // @access  Public
 router.post("/register", (req, res) => {
-  console.log("here");
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
       return res.status(400).json({ email: "email already exists" });
@@ -45,6 +44,32 @@ router.post("/register", (req, res) => {
         });
       });
     }
+  });
+});
+
+// @route   POST api/users/login
+// @desc    login new user / retourning JWT token
+// @access  Public
+
+router.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  //find user by email
+  User.findOne({ email }).then(user => {
+    //check for user
+    if (!user) {
+      return res.status(404).json({ email: "User not Found" });
+    }
+
+    //check password
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        res.json({ msg: `success` });
+      } else {
+        return res.status(400).json({ password: `passoword incorrect` });
+      }
+    });
   });
 });
 

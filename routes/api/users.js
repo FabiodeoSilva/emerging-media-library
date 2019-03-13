@@ -1,9 +1,12 @@
 const path = require("path");
+
 const express = require("express");
 const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
+
 const { secretOrKey } = require(path.join(
   __dirname,
   "..",
@@ -11,7 +14,6 @@ const { secretOrKey } = require(path.join(
   "config",
   "keys"
 ));
-
 const User = require(path.join(__dirname, "..", "..", "models", "User.js"));
 
 // @route   GET api/users/test
@@ -91,5 +93,17 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
+// @route   GET api/users/current
+// @desc    return current user
+// @access  Private
+
+router.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json({ mesg: "success" });
+  }
+);
 
 module.exports = router;

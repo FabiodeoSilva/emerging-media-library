@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addPost } from '../../actions/post';
 
 const PostForm = ({ addPost }) => {
-  const [text, setText] = useState('');
+  const [text, title, setText] = useState('');
 
   return (
     <div class='post-form'>
@@ -18,7 +18,8 @@ const PostForm = ({ addPost }) => {
           addPost({ text });
           setText('');
         }}
-      >
+      > 
+      <input type='text' placeholder='title' value={title}  onChange={e => setText(e.target.value)}></input>
         <textarea
           name='text'
           cols='30'

@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb://FabioS:300gotasdeimao@ds149501.mlab.com:49501/fabiosfirst",
+  "jwtSecret": "secret",
+  "githubClientId": "",
+  "githubSecret": ""
+}
